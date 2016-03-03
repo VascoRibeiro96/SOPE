@@ -1,0 +1,26 @@
+#include <stdio.h> 
+#include <unistd.h> 
+#include <fcntl.h> 
+#include <errno.h> 
+#define BUFFER_SIZE 512 
+int main(int argc, char*argv[]) 
+{ 
+int fd1, nr, nw; 
+unsigned char buffer[BUFFER_SIZE]; 
+
+fd1 = open(argv[1], O_RDONLY); 
+if(fd1 < 0) { 
+  perror(argv[1]);
+return 2; 
+ }
+//dup2(fd2,STDOUT_FILENO);} 
+while ((nr = read(fd1, buffer, BUFFER_SIZE)) > 0) 
+if ((nw = write(STDOUT_FILENO, buffer, nr)) <= 0 || nw != nr) { 
+   //perror(argv[2]); 
+   close(fd1); 
+return 4; 
+  } 
+  close(fd1); 
+
+return 0; 
+}
